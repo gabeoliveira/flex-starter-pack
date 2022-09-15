@@ -9,7 +9,7 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
         .catch(err => console.log(err));
 
     /** CONVERSATION TRANSFER SERVERLESS */
-    const cwd = './server/flex/plugins/plugin-conversations-transfer-interaction/serverless-transfer-interaction';
+    const cwd = path.join(process.cwd(),'./server/flex/plugins/plugin-conversations-transfer-interaction/serverless-transfer-interaction');
     const pkgJson = require(`${cwd}/package.json`);
     let serviceName = 'serverless-transfer-interaction';
 
