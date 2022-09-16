@@ -77,7 +77,8 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
         const pluginResult = await execFile('twilio', [
             'flex:plugins:deploy',
             `--changelog="Starter Pack deployment"`,
-            `--major`
+            `--major`,
+            `-l debug`
         ], {
             cwd: pluginCwd,
             shell: true,
