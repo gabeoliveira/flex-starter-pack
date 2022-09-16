@@ -72,6 +72,19 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
 
         console.log(result.stdout);
 
+        const devInstallResult = await execFile('npm', [
+            'install',
+            '@twilio/flex-ui@2.0.0-beta.1'
+        ], {
+            cwd: pluginCwd,
+            shell: true,
+            stdio: 'inherit',
+            env: pluginEnv
+        })
+            .catch(err => console.log(err));
+
+        console.log(devInstallResult.stdout);
+
         console.log('Starting Plugin Deployment...');
         
         const pluginResult = await execFile('twilio', [
