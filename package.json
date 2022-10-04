@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./server/bin/www",
-    "postinstall": "./server/scripts/postinstall.sh"
+    "postinstall": "./server/scripts/postinstall.sh",
+    "prestart": "./server/scripts/prestart.sh"
   },
   "engines": {
     "node": "14.x"
