@@ -7,3 +7,9 @@
 [submodule "server/flex/plugins/plugin-flex-localization"]
 	path = server/flex/plugins/plugin-flex-localization
 	url = https://github.com/twilio-professional-services/plugin-flex-localization.git
+[submodule "server/flex/flex-plugins/plugin-conversations-transfer-interaction"]
+	path = server/flex/flex-plugins/plugin-conversations-transfer-interaction
+	url = https://github.com/TwilioLatamEngHub/plugin-conversations-transfer-interaction
+[submodule "server/flex/flex-plugins/plugin-flex-localization"]
+	path = server/flex/flex-plugins/plugin-flex-localization
+	url = https://github.com/twilio-professional-services/plugin-flex-localization
