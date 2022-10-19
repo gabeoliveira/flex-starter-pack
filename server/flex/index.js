@@ -46,13 +46,20 @@ const initFlex = async (config) => {
 
       config.documentSid = document.sid;
 
-      plugins
-        .filter(plugin => plugin.enabled)
-        .forEach(async (plugin) => { await pluginScripts[plugin.code](client, serverlessClient, config) });
+      const enabledPlugins = plugins
+        .filter(plugin => plugin.enabled);
+
+      deployPlugins(enabledPlugins, client, serverlessClient, config);
 
       return {documentName:document.uniqueName, syncServiceSid: syncService.sid};
  
 
 }
 
-module.exports = {initFlex}
+const deployPlugins = async (enabledPlugins, client, serverlessClient, config) => {
+  for(plugin of enabledPlugins){
+    await pluginScripts[plugin.code](client, serverlessClient, config);
+  }
+}
+
+module.exports = { initFlex }

@@ -17,7 +17,7 @@ const deployFlexLocalizationPlugin =  async (client, serverlessClient, config) =
             ENABLED: true
         };
 
-        const cwd = path.join(process.cwd(),'./server/flex/plugins/plugin-flex-localization/default');
+        const cwd = path.join(process.cwd(),'./server/flex/flex-plugins/plugin-flex-localization/default');
         const pkgJson = require(`${cwd}/package.json`);
         let serviceName = 'flex-localization';
 
@@ -53,7 +53,7 @@ const deployFlexLocalizationPlugin =  async (client, serverlessClient, config) =
 
         const execFile = util.promisify(require('child_process').execFile);
 
-        const pluginCwd = path.join(process.cwd(),'./server/flex/plugins/plugin-flex-localization/flex-2.0');
+        const pluginCwd = path.join(process.cwd(),'./server/flex/flex-plugins/plugin-flex-localization/flex-2.0');
 
         const pluginEnv = {
             ...process.env,

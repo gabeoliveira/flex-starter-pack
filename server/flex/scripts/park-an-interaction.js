@@ -26,7 +26,7 @@ const deployParkAnInteracionPlugin =  async (client, serverlessClient, config) =
             TWILIO_NUMBER: config.plugins.find(plugin => plugin.code === 'park-an-interaction').env.find(envVar => envVar.name === 'TWILIO_NUMBER').value
         }   
 
-        const cwd = path.join(process.cwd(),'./server/flex/plugins/plugin-conversations-park-an-interaction/serverless-park-an-interaction');
+        const cwd = path.join(process.cwd(),'./server/flex/flex-plugins/plugin-conversations-park-an-interaction/serverless-park-an-interaction');
         const pkgJson = require(`${cwd}/package.json`);
         let serviceName = 'serverless-park-an-interaction';
 
@@ -78,7 +78,7 @@ const deployParkAnInteracionPlugin =  async (client, serverlessClient, config) =
 
         const execFile = util.promisify(require('child_process').execFile);
 
-        const pluginCwd = path.join(process.cwd(),'./server/flex/plugins/plugin-conversations-park-an-interaction/plugin-park-an-interaction');
+        const pluginCwd = path.join(process.cwd(),'./server/flex/flex-plugins/plugin-conversations-park-an-interaction/plugin-park-an-interaction');
 
         const pluginEnv = {
             ...process.env,

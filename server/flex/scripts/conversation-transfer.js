@@ -27,7 +27,7 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
             WORKSPACE_SID: workspaceSid
         }   
 
-        const cwd = path.join(process.cwd(),'./server/flex/plugins/plugin-conversations-transfer-interaction/serverless-transfer-interaction');
+        const cwd = path.join(process.cwd(),'./server/flex/flex-plugins/plugin-conversations-transfer-interaction/serverless-transfer-interaction');
         const pkgJson = require(`${cwd}/package.json`);
         let serviceName = 'serverless-transfer-interaction';
 
@@ -63,7 +63,7 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
 
         const execFile = util.promisify(require('child_process').execFile);
 
-        const pluginCwd = path.join(process.cwd(),'./server/flex/plugins/plugin-conversations-transfer-interaction/plugin-transfer-interaction');
+        const pluginCwd = path.join(process.cwd(),'./server/flex/flex-plugins/plugin-conversations-transfer-interaction/plugin-transfer-interaction');
 
         const pluginEnv = {
             ...process.env,
