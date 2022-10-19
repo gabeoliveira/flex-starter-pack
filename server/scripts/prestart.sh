@@ -1,1 +1,2 @@
-twilio plugins:install @twilio-labs/plugin-flex
+#!/bin/bash
+# twilio plugins:install @twilio-labs/plugin-flex

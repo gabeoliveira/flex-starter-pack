@@ -1,26 +1,38 @@
 const util = require('util');
 const path = require('path');
 
+const { createMessage, logError, updateStatus } = require('../helpers/message-helper');
 
 const deployConversationTransferPlugin = async (client, serverlessClient, config) => {
 
-    const { sid:workspaceSid } = await client.taskrouter.v1.workspaces.list({limit: 20})
-        .then(workspaces => workspaces.find(workspace => workspace.friendlyName === 'Flex Task Assignment'))
-        .catch(err => console.log(err));
-
-    /** CONVERSATION TRANSFER SERVERLESS */
-    const cwd = path.join(process.cwd(),'./server/flex/plugins/plugin-conversations-transfer-interaction/serverless-transfer-interaction');
-    const pkgJson = require(`${cwd}/package.json`);
-    let serviceName = 'serverless-transfer-interaction';
+    let messageIndex = 0;
 
 
-    const env = {
-        WORKSPACE_SID: workspaceSid
-    }    
-
-
-    
     try{
+        messageIndex = await createMessage(client,config,'Start Conversation Transfer Deployment');
+        
+        await updateStatus(client, config, messageIndex, 'done');
+
+        messageIndex = await createMessage(client,config,'Find Flex TaskRouter Workspace');
+    
+        const { sid:workspaceSid } = await client.taskrouter.v1.workspaces.list({limit: 20})
+            .then(workspaces => workspaces.find(workspace => workspace.friendlyName === 'Flex Task Assignment'));
+
+
+        await updateStatus(client, config, messageIndex, 'done');
+
+        /** CONVERSATION TRANSFER SERVERLESS */
+
+        const env = {
+            WORKSPACE_SID: workspaceSid
+        }   
+
+        const cwd = path.join(process.cwd(),'./server/flex/plugins/plugin-conversations-transfer-interaction/serverless-transfer-interaction');
+        const pkgJson = require(`${cwd}/package.json`);
+        let serviceName = 'serverless-transfer-interaction';
+
+        messageIndex = await createMessage(client,config,'Deploy Serverless Components');
+
         const services = await client.serverless.services.list();
 
         const existingService = services.find((service) => service.uniqueName === serviceName);
@@ -32,7 +44,6 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
 
            //TODO return message 
         }
-
     
         const service = await serverlessClient.deployLocalProject({
             cwd,
@@ -41,11 +52,13 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
             serviceName,
             functionsEnv: "dev",
             functionsFolderName: "functions"
-            })
-            .catch(err => console.log(err));
-    
+            });
+            
+        await updateStatus(client, config, messageIndex, 'done');
 
         /* CONVERSATION TRANSFER PLUGIN */
+        messageIndex = await createMessage(client,config,'Deploy Flex Plugin');
+
         const { domain } = service;
 
         const execFile = util.promisify(require('child_process').execFile);
@@ -100,13 +113,15 @@ const deployConversationTransferPlugin = async (client, serverlessClient, config
         })
             .catch(err => console.log(err));
 
-        console.log(pluginResult);
+        await updateStatus(client, config, messageIndex, 'done');
 
 
     }
 
     catch(err){
-        console.log(err.messsage);
+        console.log(err);
+        logError(client, config, messageIndex, err);
+        return;
     }
 
     

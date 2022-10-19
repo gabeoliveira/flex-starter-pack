@@ -3,23 +3,46 @@ var router = express.Router();
 const { initFlex } = require("../flex/");
 
 /* POST users listing. */
-router.post('/', function(req, res, next) {
-    const { accountSid, authToken } = req.body;
+router.post('/', async function(req, res, next) {
+
+    const { accountSid, apiKeySid, apiKeySecret, authToken } = req.body.formData;
+    const { plugins } = req.body;
 
     console.log('Starting Flex deployment...');
     try{
-        initFlex({ accountSid, authToken });
+        
+        const {documentName, syncServiceSid} = await initFlex({ accountSid, apiKeySid, apiKeySecret, authToken, plugins });
 
-        const response = {
-            "response": "Deployment started successfully"
-    }
+        if(documentName && syncServiceSid){
+            const response = {
+                status: "Deployment started successfully",
+                documentName,
+                syncServiceSid
+    
+            }
+    
+            res.status(201).send(JSON.stringify(response));
 
-    res.status(201).send(JSON.stringify(response));
+        }
+
+       else {
+            const response = {
+                status:'authentication error'
+
+            }
+            res.status(500).send(JSON.stringify(response));
+       }
 
     }
 
     catch(err){
-        res.status(500).send(JSON.stringify(err));
+        console.log(err.message);
+
+        const response = {
+            status:err.message
+
+        }
+        res.status(500).send(JSON.stringify(response));
     }
 
     

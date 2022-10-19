@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const deployRouter = require('./routes/deploy');
+const tokenRouter = require('./routes/token')
 
 const publicPath = path.join(__dirname, '..', 'client', 'starter-pack-client', 'build');
 
@@ -21,6 +22,8 @@ app.use(cookieParser());
 app.use(express.static(publicPath));
 
 app.use('/deploy', deployRouter);
+app.use('/token', tokenRouter);
+
 
 app.get('/', function(req, res, next) {
   res.sendFile(path.join(publicPath, 'index.html'));
