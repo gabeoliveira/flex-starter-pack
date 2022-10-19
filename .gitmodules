@@ -13,3 +13,6 @@
 [submodule "server/flex/flex-plugins/plugin-flex-localization"]
 	path = server/flex/flex-plugins/plugin-flex-localization
 	url = https://github.com/twilio-professional-services/plugin-flex-localization
+[submodule "server/flex/flex-plugins/plugin-conversations-park-an-interaction"]
+	path = server/flex/flex-plugins/plugin-conversations-park-an-interaction
+	url = https://github.com/TwilioLatamEngHub/plugin-conversations-park-an-interaction
